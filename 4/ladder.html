@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    describe('Ladder', function () {
+      before(function () {
+        window.alert = sinon.stub(window, "alert");
+      });
+
+      beforeEach(function () {
+        ladder.step = 0;
+      });
+
+      it('up() should return this', function () {
+        assert.equal(ladder.up(), ladder);
+      });
+
+      it('down() should return this', function () {
+        assert.equal(ladder.down(), ladder);
+      });
+
+      it('showStep() should call alert', function () {
+        ladder.showStep();
+        assert(alert.called);
+      });
+
+      it('up() should increase step', function () {
+        assert.equal(ladder.up().up().step, 2);
+      });
+
+      it('down() should decrease step', function () {
+        assert.equal(ladder.down().step, -1);
+      });
+
+      it('down().up().up().up() ', function () {
+        assert.equal(ladder.down().up().up().up().step, 2);
+      });
+
+      it('showStep() should return this', function () {
+        assert.equal(ladder.showStep(), ladder);
+      });
+
+      it('up().up().down().showStep().down().showStep()', function () {
+        assert.equal(ladder.up().up().down().showStep().down().showStep().step, 0)
+      });
+
+      after(function () {
+        ladder.step = 0;
+        alert.restore();
+      });
+    });  </script>
+
+  <script>
+    let ladder = {
+      step: 0,
+      up() {
+        this.step++;
+        return this;
+      },
+      down() {
+        this.step--;
+        return this;
+      },
+      showStep: function () { // shows the current step
+        alert(this.step);
+        return this;
+      }
+    }; 
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>
