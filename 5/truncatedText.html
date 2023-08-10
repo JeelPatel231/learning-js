@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    describe("truncate", function () {
+      it("truncate the long string to the given length (including the ellipsis)", function () {
+        assert.equal(
+          truncate("What I'd like to tell on this topic is:", 20),
+          "What I'd like to te…"
+        );
+      });
+
+      it("doesn't change short strings", function () {
+        assert.equal(
+          truncate("Hi everyone!", 20),
+          "Hi everyone!"
+        );
+      });
+
+    });  
+  </script>
+
+  <script>
+    function truncate(str) {
+      return str.length >= 20 ? str.slice(0, 19) + '…' : str
+    }
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>

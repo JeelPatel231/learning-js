@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    describe("checkSpam", function () {
+      it('finds spam in "buy ViAgRA now"', function () {
+        assert.isTrue(checkSpam('buy ViAgRA now'));
+      });
+
+      it('finds spam in "free xxxxx"', function () {
+        assert.isTrue(checkSpam('free xxxxx'));
+      });
+
+      it('no spam in "innocent rabbit"', function () {
+        assert.isFalse(checkSpam('innocent rabbit'));
+      });
+    });  
+  </script>
+
+  <script>
+    function checkSpam(str) {
+      return ["viagra", "xxx"].some(x => str.toLowerCase().includes(x))
+    }
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>

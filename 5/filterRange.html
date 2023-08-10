@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    describe("filterRange", function () {
+
+      it("returns the filtered values", function () {
+
+        let arr = [5, 3, 8, 1];
+
+        let filtered = filterRange(arr, 1, 4);
+
+        assert.deepEqual(filtered, [3, 1]);
+      });
+
+      it("doesn't change the array", function () {
+
+        let arr = [5, 3, 8, 1];
+
+        let filtered = filterRange(arr, 1, 4);
+
+        assert.deepEqual(arr, [5, 3, 8, 1]);
+      });
+
+    });
+
+    describe("filterRangeInPlace", function () {
+
+      it("returns the filtered values", function () {
+
+        let arr = [5, 3, 8, 1];
+
+        filterRangeInPlace(arr, 2, 5);
+
+        assert.deepEqual(arr, [5, 3]);
+      });
+
+      it("doesn't return anything", function () {
+        assert.isUndefined(filterRangeInPlace([1, 2, 3], 1, 4));
+      });
+
+    });
+
+  </script>
+
+  <script>
+    function filterRange(arr, a, b) {
+      return arr.filter(x => x >= a && x <= b)
+    }
+
+    function filterRangeInPlace(arr, a, b) {
+      for (let i = 0; i < arr.length; i++) {
+        let val = arr[i];
+        if (val < a || val > b) {
+          arr.splice(i--, 1);
+        }
+      }
+    }
+
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>

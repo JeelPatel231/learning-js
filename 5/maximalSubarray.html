@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    describe("getMaxSubSum", function () {
+      it("maximal subsum of [1, 2, 3] equals 6", function () {
+        assert.equal(getMaxSubSum([1, 2, 3]), 6);
+      });
+
+      it("maximal subsum of [-1, 2, 3, -9] equals 5", function () {
+        assert.equal(getMaxSubSum([-1, 2, 3, -9]), 5);
+      });
+
+      it("maximal subsum of [-1, 2, 3, -9, 11] equals 11", function () {
+        assert.equal(getMaxSubSum([-1, 2, 3, -9, 11]), 11);
+      });
+
+      it("maximal subsum of [-2, -1, 1, 2] equals 3", function () {
+        assert.equal(getMaxSubSum([-2, -1, 1, 2]), 3);
+      });
+
+      it("maximal subsum of [100, -9, 2, -3, 5] equals 100", function () {
+        assert.equal(getMaxSubSum([100, -9, 2, -3, 5]), 100);
+      });
+
+      it("maximal subsum of [] equals 0", function () {
+        assert.equal(getMaxSubSum([]), 0);
+      });
+
+      it("maximal subsum of [-1] equals 0", function () {
+        assert.equal(getMaxSubSum([-1]), 0);
+      });
+
+      it("maximal subsum of [-1, -2] equals 0", function () {
+        assert.equal(getMaxSubSum([-1, -2]), 0);
+      });
+
+      it("maximal subsum of [2, -8, 5, -1, 2, -3, 2] equals 6", function () {
+        assert.equal(getMaxSubSum([2, -8, 5, -1, 2, -3, 2]), 6);
+      });
+    });
+  </script>
+
+  <script>
+    function getMaxSubSum(arr) {
+      let curr_sum = 0;
+      let max_sum = 0;
+      for (let i of arr) {
+        curr_sum = Math.max(curr_sum + i, 0);
+        max_sum = Math.max(curr_sum, max_sum);
+      }
+      return max_sum;
+    }
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>

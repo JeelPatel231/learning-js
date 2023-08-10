@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    describe("sumSalaries", function () {
+      it("returns sum of salaries", function () {
+        let salaries = {
+          "John": 100,
+          "Pete": 300,
+          "Mary": 250
+        };
+
+        assert.equal(sumSalaries(salaries), 650);
+      });
+
+      it("returns 0 for the empty object", function () {
+        assert.strictEqual(sumSalaries({}), 0);
+      });
+    });
+
+    describe("count", function () {
+      it("counts the number of properties", function () {
+        assert.equal(count({a: 1, b: 2}), 2);
+      });
+
+      it("returns 0 for an empty object", function () {
+        assert.equal(count({}), 0);
+      });
+
+      it("ignores symbolic properties", function () {
+        assert.equal(count({[Symbol('id')]: 1}), 0);
+      });
+    });
+
+    describe("topSalary", function () {
+      it("returns top-paid person", function () {
+        let salaries = {
+          "John": 100,
+          "Pete": 300,
+          "Mary": 250
+        };
+
+        assert.equal(topSalary(salaries), "Pete");
+      });
+
+      it("returns null for the empty object", function () {
+        assert.isNull(topSalary({}));
+      });
+    });
+  </script>
+
+  <script>
+    const sumSalaries = (obj) =>
+      Object.values(obj)
+        .reduce((prev, x) => !isNaN(x) && typeof x === 'number' ? prev + x : prev, 0)
+
+
+    const count = (obj) => Object.entries(obj).length
+
+    const topSalary = (obj) =>
+      Object.keys(obj)
+        .reduce(
+          (max, curr) => obj[curr] >= (obj[max] ?? 0) ? curr : max,
+          null
+        )
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>

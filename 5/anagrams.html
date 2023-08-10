@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mocha Setup for Pow</title>
+  <link rel="stylesheet" href="../mocha/mocha.css">
+</head>
+
+<body>
+  <div id="mocha"></div>
+  <script src="../mocha/chai.js"></script>
+  <script src="../mocha/sinon.js"></script>
+  <script src="../mocha/mocha.js"></script>
+
+  <script class="mocha-init">
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    const assert = chai.assert;
+  </script>
+  <script>
+    function intersection(arr1, arr2) {
+      return arr1.filter(item => arr2.includes(item));
+    }
+
+    describe("aclean", function () {
+
+      it("returns exactly 1 word from each anagram set", function () {
+        let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+
+        let result = aclean(arr);
+        assert.equal(result.length, 3);
+
+        assert.equal(intersection(result, ["nap", "PAN"]).length, 1);
+        assert.equal(intersection(result, ["teachers", "cheaters", "hectares"]).length, 1);
+        assert.equal(intersection(result, ["ear", "era"]).length, 1);
+
+      });
+
+      it("is case-insensitive", function () {
+        let arr = ["era", "EAR"];
+        assert.equal(aclean(arr).length, 1);
+      });
+
+    });
+  </script>
+
+  <script>
+    // ninja code, again :P, more like functional programming
+    const aclean = (arr) =>
+      [...arr.map(x =>
+        [x.toLowerCase().split('').sort().join(''), x]
+      ).reduce((prev, [a, b]) => {
+        prev.set(a, b);
+        return prev;
+      }, new Map()).values()];
+
+  </script>
+
+  <script class="mocha-exec">
+    mocha.run();
+  </script>
+</body>
+
+</html>
