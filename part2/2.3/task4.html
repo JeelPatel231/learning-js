@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      height: 2000px;
+      /* make body scrollable, the tooltip should work after the scroll */
+    }
+
+    button {
+      position: relative;
+    }
+
+    .tooltip {
+      /* some styles for the tooltip, you can use your own instead */
+      position: absolute;
+      width: max-content;
+      padding: 10px 20px;
+      border: 1px solid #b3c9ce;
+      border-radius: 4px;
+      text-align: center;
+      font: italic 14px/1.3 sans-serif;
+      color: #333;
+      background: #fff;
+      box-shadow: 3px 3px 3px rgba(0, 0, 0, .3);
+    }
+  </style>
+</head>
+
+<body>
+
+  <p>LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa</p>
+  <p>LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa LaLaLa</p>
+
+  <button data-tooltip="the tooltip is longer than the element">Short button</button>
+  <button data-tooltip="HTML<br>tooltip">One more button</button>
+
+  <p>Scroll the page to make buttons appear on the top, check if the tooltips show up correctly.</p>
+
+  <template id="tooltip">
+    <div class="tooltip">
+    </div>
+  </template>
+
+  <script>
+    // ...your code...
+    document.body.addEventListener("mouseover", (evt) => {
+      const tooltipText = evt.target.dataset.tooltip;
+      if (tooltipText != null) {
+        const el = tooltip.content.cloneNode(true);
+        el.children[0].innerHTML = tooltipText;
+        evt.target.appendChild(el)
+      }
+    })
+
+    document.body.addEventListener("mouseout", (evt) => {
+      // remove all on mouseout, dont care
+      document.querySelectorAll(".tooltip").forEach(x => x.remove())
+    })
+  </script>
+
+</body>
+
+</html>

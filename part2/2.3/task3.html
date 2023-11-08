@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 4px;
+    }
+
+    th {
+      cursor: pointer;
+    }
+
+    th:hover {
+      background: yellow;
+    }
+  </style>
+</head>
+
+<body>
+
+  <table id="grid">
+    <thead>
+      <tr>
+        <th data-type="number">Age</th>
+        <th data-type="string">Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>5</td>
+        <td>John</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Pete</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Ann</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Eugene</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Ilya</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    // ...your code...
+    const grid = document.getElementById("grid")
+    grid.addEventListener("click", (e) => {
+      if (e.target.tagName != 'TH') return;
+      sortGrid(e.target.dataset.type);
+    });
+
+    const comparators = {
+      "number": (a, b) => +a.children[0].innerText - +b.children[0].innerText,
+      "string": (a, b) => a.children[1].innerText.localeCompare(b.children[1].innerText),
+    }
+
+    function sortGrid(dataType) {
+      let tbody = grid.querySelector('tbody');
+      let rowsArray = [...tbody.rows];
+      rowsArray.sort(comparators[dataType]);
+      tbody.append(...rowsArray);
+    }
+  </script>
+
+</body>
+
+</html>
